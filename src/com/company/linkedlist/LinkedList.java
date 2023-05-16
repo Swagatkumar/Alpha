@@ -10,7 +10,7 @@ public class LinkedList {
             next = null;
         }
     }
-    private Node head;
+    public Node head;
     private Node tail;
 
     private static Node head1;
@@ -257,6 +257,66 @@ public class LinkedList {
         }
 
         prev.next = null;
+    }
+
+    private Node getMid(Node head){
+        Node slow = head;
+        Node fast = head.next;
+
+        while(fast!=null && fast.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
+    }
+
+    private Node merge(Node head1, Node head2){
+        Node mergeLL = new Node(-1);
+        Node temp = mergeLL;
+        while(head1!=null && head2!=null){
+            if(head1.data<=head2.data){
+                temp.next = head1;
+                head1 = head1.next;
+                temp = temp.next;
+            }else{
+                temp.next = head2;
+                head2 = head2.next;
+                temp = temp.next;
+            }
+        }
+
+        if(head1!=null){
+            temp.next = head1;
+            head1 = head1.next;
+            temp = temp.next;
+        }
+        if(head2!=null){
+            temp.next = head2;
+            head2 = head2.next;
+            temp = temp.next;
+        }
+
+        return mergeLL.next;
+    }
+
+    private Node mergeSort(Node head){
+        if(head==null || head.next==null){
+            return head;
+        }
+
+        //find mid
+        Node mid = getMid(head);
+        //sort left and right
+        Node rightHead = mergeSort(mid.next);
+        mid.next = null;
+        Node leftHead = mergeSort(head);
+        //merge left and right
+        return merge(leftHead, rightHead);
+    }
+
+    public void sort(){
+        head = mergeSort(head);
     }
 
     public String toString(){

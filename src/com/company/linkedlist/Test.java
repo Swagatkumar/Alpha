@@ -40,5 +40,7 @@ public class Test {
         System.out.println(linkedList);
 
         System.out.println("is plaindrome: "+linkedList.isPalindrome());
+        linkedList.sort();
+        System.out.println(linkedList);
     }
 }
